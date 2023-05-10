@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Incident Data</title>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+  <div id="chartContainer" style="height: 360px; width: 100%;"></div>
+  
+  <script>
+    async function getData(url) {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    }
+    
+    function processChartData(data) {
+      const chartData = {};
+      data.forEach(item => {
+        const date = new Date(item.date);
+        const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
+        if (!chartData[monthYear]) {
+          chartData[monthYear] = {};
+        }
+        if (!chartData[monthYear][item.clearance_code_inc_type]) {
+          chartData[monthYear][item.clearance_code_inc_type] = 1;
+        } else {
+          chartData[monthYear][item.clearance_code_inc_type]++;
+        }
+      });
+      const series = Object.keys(chartData[Object.keys(chartData)[0]]).map(label => {
+        return {
+          type: "column",
+          name: label,
+          dataPoints: Object.keys(chartData).map(key => {
+            return {
+              label: key,
+              y: chartData[key][label] || 0
+            }
+          })
+        } 
+      });
+      return series;
+    }
+    
+    (async function() {
+      const url = 'https://data.princegeorgescountymd.gov/resource/wb4e-w4nf.json?$query=SELECT%0A%20%20%60incident_case_id%60%2C%0A%20%20%60date%60%2C%0A%20%20%60clearance_code_inc_type%60%2C%0A%20%20%60pgpd_reporting_area%60%2C%0A%20%20%60pgpd_sector%60%2C%0A%20%20%60pgpd_beat%60%2C%0A%20%20%60street_number%60%2C%0A%20%20%60street_address%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_87xh_ddyp%60%0AORDER%20BY%20%60date%60%20ASC%20NULL%20LAST'
+      const data = await getData(url);
+      const chartData = processChartData(data);
+      
+      const chart = new CanvasJS.Chart("chartContainer", {
+        title: {
+          text: "Incident Data"
+        },
+        axisX: { 
+          title: "Month-Year"
+        },
+        axisY: {
+          title: "Frequency" 
+        },
+        legend: {
+          verticalAlign: "top",
+          horizontalAlign: "center",
+          dockInsidePlotArea: true
+        },
+        data: chartData
+      });
+      
+      chart.render();
+    })();
+  </script>
+</body>
+</html>
