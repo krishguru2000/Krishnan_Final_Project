@@ -5,14 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishnan Guru's Lab 7</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-    crossorigin=""/>
-    <link rel="stylesheet" href="style.css">
+    
+    <script type="text/javascript">
 
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title:{
+                text: "My First Chart in CanvasJS"              
+            },
+            data: [              
+            {
+                // Change type to "doughnut", "line", "splineArea", etc.
+                type: "column",
+                dataPoints: [
+                    { label: "apple",  y: 10  },
+                    { label: "orange", y: 15  },
+                    { label: "banana", y: 25  },
+                    { label: "mango",  y: 30  },
+                    { label: "grape",  y: 28  }
+                ]
+            }
+            ]
+        });
+        chart.render();
+    }
+    </script>
 </head>
 
 <body>
