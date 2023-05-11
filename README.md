@@ -1,6 +1,6 @@
 # Krishnan_Final_Project
 
-1. URL: https://krishguru2000.github.io/Krishnan_Final_Project/ 
+1. URL: https://github.com/krishguru2000/Krishnan_Final_Project/tree/Final_Display 
 2. Crime by Incident in PG County February 2017
 3. Targets android browsers
 
