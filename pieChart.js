@@ -1,23 +1,25 @@
-function createPieChart(data) {
-  // Get the unique values of ":@computed_region_87xh_ddyp"
-  const computedRegionValues = [...new Set(data.map(item => item[":@computed_region_87xh_ddyp"]))];
+function createPieChart(data) { 
+  // creates filter to be attached at the end
+  const heading = document.createElement("h4");
+  heading.innerText = "Choose the zipcode you want to filter by:";
+  document.body.appendChild(heading);
 
-  // Create a dropdown menu with the computed region values and an option for "None"
+  const computedRegionValues = [...new Set(data.map(item => item[":@computed_region_87xh_ddyp"]))];
   const dropdown = document.createElement("select");
-  dropdown.options.add(new Option("None", "none")); // Add an option for "None"
+  dropdown.options.add(new Option("None", "none")); // creates none option
   computedRegionValues.forEach(value => {
-    dropdown.options.add(new Option(value, value));
+    dropdown.options.add(new Option(value, value)); //gets all other zipcodes
   });
   dropdown.onchange = function() {
     let filteredData = data;
     if (this.value !== "none") {
-      filteredData = data.filter(item => item[":@computed_region_87xh_ddyp"] === this.value);
+      filteredData = data.filter(item => item[":@computed_region_87xh_ddyp"] === this.value); //allows user to select item
     }
     createPieChart(filteredData);
   };
   document.body.appendChild(dropdown);
 
-  // Calculate the chart data
+  
   const chartData = {};
   data.forEach(item => {
     if (!chartData[item.clearance_code_inc_type]) {
@@ -26,8 +28,6 @@ function createPieChart(data) {
       chartData[item.clearance_code_inc_type]++;
     }
   });
-
-  // Convert the chart data to data points
   const dataPoints = Object.keys(chartData).map(label => {
     return {
       label: label,
@@ -35,7 +35,6 @@ function createPieChart(data) {
     };
   });
 
-  // Create the pie chart
   const chart = new CanvasJS.Chart("pieChartContainer", {
     title: {
       text: "Crime Incidents by Type"

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="styles.css">
   <title>Incident Data</title>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script src="loaddata.js"></script>
@@ -8,8 +9,22 @@
   <script src="pieChart.js"></script>
 </head>
 <body>
+  <header class="header">
+    <h1>Krishnan's Final Report</h1>
+  </header>
+  <h2>The Data</h2>
+  <p>This website explores the crime in pg county over a few days in February 2017</p>
+  <pics class="container">
+    <img src="pgcounty_crime_map.png" alt="PG County Crime Map" style="float: left; margin-right: 10px;">
+    <img src="pgpd.jpg" alt="PGPD" style="float: left;">
+  </pics>  
+  <p> </p>
+  <h3>This graph looks at the frequency of each type of crime through the days in February</h3>
   <div id="chartContainer" style="height: 360px;"></div>
+  <div id="legendContainer"></div>
+  <h3>This pie chart shows the number of different crimes that occured over this time span. You can filter the crimes by Zipcode!</h3>
   <div id="pieChartContainer" style="height: 360px;"></div>
+  
   
   <script>
     (async function() {
@@ -27,17 +42,13 @@
         axisY: {
           title: "Frequency" 
         },
-        legend: {
-          verticalAlign: "top",
-          horizontalAlign: "center",
-          dockInsidePlotArea: true
-        },
         data: chartData
       });
       
       chart.render();
       createPieChart(data);
     })();
+    
   </script>
 </body>
 </html>
